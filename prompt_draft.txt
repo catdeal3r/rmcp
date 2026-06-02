@@ -110,3 +110,4 @@ Web Search: "{'query': 'weather in Mexico', 'follow_up_questions': None, 'answer
 This is the current user query:
 
 (EXAMPLE AHEAD CHANGE THIS):
+Whats the latest in GPU news?
