@@ -22,6 +22,17 @@ TOOLS:
 "output": Output content for the user to read.
 
 
+TOOL IDENTIFIER and TOOL CONTENT:
+
+In the case of the "file_write" tool, you need to specify the filename AND content.
+
+For that, you fill in "tool_identifier" to identify the filename, and "tool_content" to identify the content of that file.
+
+In the case of the "file_read" tool, you only need to specify the filename.
+
+For that, you fill in "tool_identifier" to identify the filename, and leave "tool_content" as an empty string, as it isn't needed.
+
+With all other tools, you only need to fill in "tool_content", and leave "tool_identifier" as an empty string, as it isn't needed.
 
 Example:
 
@@ -32,8 +43,9 @@ You think:
 
 You return:
 {
-	"state": "pending"
-	"tool": "web_search"
+	"state": "pending",
+	"tool": "web_search",
+	"tool_identifier": "",
 	"tool_content": "weather mexico city"
 }
 
