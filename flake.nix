@@ -9,7 +9,6 @@
           clang
           pkg-config
           openssl
-          rust
         ];
       };
     };
