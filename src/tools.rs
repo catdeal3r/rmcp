@@ -47,4 +47,3 @@ pub fn write_to_file(filename: String, content: String) -> String {
     return_string
 }
 
-

@@ -18,11 +18,70 @@ pub fn get_ai_response(prompt: &String, model: &String) -> String {
         ollama.generate(request).await
     };
 
-    let res = rt.block_on(future_task).expect("FAILED: unable to block the main thread untill async task completes. Err02");
+    let res = rt.block_on(future_task).expect("FAILED: unable to access the ollama server. Err02");
 
     res.response
 }
 
+pub fn check_whether_ollama_is_running() -> bool {
+    let rt = Runtime::new().expect("FAILED: to create new tokio runtime. Err07");
+
+    let future_task = async {
+        let ollama = Ollama::default();
+
+        ollama.list_local_models().await
+    };
+
+    let res = rt.block_on(future_task);
+
+    match res {
+        Ok(_) => {
+            return true;
+        }
+        Err(_) => {
+            return false;
+        }
+    }
+}
+
+
+pub fn check_whether_ollama_has_any_models() -> i32 {
+    let rt = Runtime::new().expect("FAILED: to create new tokio runtime. Err08");
+
+    let future_task = async {
+        let ollama = Ollama::default();
+
+        ollama.list_local_models().await
+    };
+
+    let res = rt.block_on(future_task).expect("FAILED: unable to access the ollama server. Err09");
+
+    if res.is_empty() {
+        return 0;
+    } else {
+        return res.len().try_into().unwrap();
+    }
+}
+
+
+pub fn check_whether_ollama_has_a_model(target_model: &str) -> bool {
+    let rt = Runtime::new().expect("FAILED: to create new tokio runtime. Err10");
+
+    let future_task = async {
+        let ollama = Ollama::default();
+
+        ollama.list_local_models().await
+    };
+
+    let res = rt.block_on(future_task).expect("FAILED: unable to access the ollama server. Err11");
+
+    if res.is_empty() {
+        return false;
+    } else {
+        let exists = res.iter().any(|m| m.name.contains(target_model));
+        return exists;
+    }
+}
 
 
 #[derive(Deserialize)]

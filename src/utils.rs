@@ -1,6 +1,7 @@
 use termimad::crossterm::style;
 use std::io::{self, Write};
 use spinoff::{Spinner, spinners, Color};
+use colored::*;
 
 pub fn set_colours(skin: &mut termimad::MadSkin) {
     skin.set_fg(style::Color::Rgb { r: 210, g: 210, b: 210 }); // orange-ish              
@@ -41,4 +42,12 @@ pub fn format_and_print_markdown_content(content: &str) {
 pub fn create_spinner(content: &str) -> Spinner {
     let spinner_content = &content.to_string();
     Spinner::new(spinners::Line, spinner_content.clone(), Color::Blue)
+}
+
+
+pub fn get_welcome_line(model: &String, provider: &String, tools_amount: &String) -> String {
+    format!("{} {} {}\n{}: {} {} {}: {} {} {}: {}", "rmcp".bold().blue(), "·".bold().dimmed(),
+        env!("CARGO_PKG_VERSION").bold().dimmed(), "model".bold().blue(),
+        model, "·".bold().dimmed(), "provider".bold().blue(), provider,
+        "·".bold().dimmed(), "tools".bold().blue(), tools_amount)
 }
