@@ -12,26 +12,26 @@ STATES:
 
 TOOLS:
 
-"web_search": Search the web for information using the user's main search engine.
+"websearch": Search the web for information using the user's main search engine.
 
-"web_swarm_search": Search the web for information using all of the available search engines.
+"webswarmsearch": Search the web for information using all of the available search engines.
 
-"file_write": Write to a file on disk.
+"filewrite": Write to a file on disk.
 
-"file_read": Read the content of a file on disk.
+"fileread": Read the content of a file on disk.
 
-"web_fetch": Fetch the information of a website.
+"webfetch": Fetch the information of a website.
 
 "output": Output content for the user to read.
 
 
 TOOL IDENTIFIER and TOOL CONTENT:
 
-In the case of the "file_write" tool, you need to specify the filename AND content.
+In the case of the "filewrite" tool, you need to specify the filename AND content.
 
 For that, you fill in "tool_identifier" to identify the filename, and "tool_content" to identify the content of that file.
 
-In the case of the "file_read" tool, you only need to specify the filename.
+In the case of the "fileread" tool, you only need to specify the filename.
 
 For that, you fill in "tool_identifier" to identify the filename, and leave "tool_content" as an empty string, as it isn't needed.
 
@@ -56,7 +56,7 @@ You think:
 You return:
 {
 	"state": "pending",
-	"tool": "web_search",
+	"tool": "websearch",
 	"tool_identifier": "",
 	"tool_content": "weather mexico city"
 }
@@ -80,7 +80,7 @@ You think:
 You return:
 {
 	"state": "pending",
-	"tool": "file_read",
+	"tool": "fileread",
 	"tool_identifier": "test.html",
 	"tool_content": ""
 }
@@ -88,7 +88,7 @@ You return:
 You then get the content of that file, then return to write the file:
 {
 	"state": "pending",
-	"tool": "file_write",
+	"tool": "filewrite",
 	"tool_identifier": "test.html",
 	"tool_content": "<!DOCTYPE html>\n<html>\n<body>\n<h1>Hello there</h1>\n</body>\n</html>"
 }
@@ -109,6 +109,6 @@ const PROMPT_2: &str = "\n\n\nThis is the current user query:\n";
 
 
 pub fn generate_full_prompt(current_query: &str,
-    previous_messages: Vec<&str>) -> String {
+    previous_messages: Vec<String>) -> String {
     format!("{}{}{}{}", self::PROMPT, previous_messages.join("\n"), self::PROMPT_2, current_query)
 }

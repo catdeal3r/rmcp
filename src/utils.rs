@@ -20,11 +20,11 @@ pub fn get_input() -> String {
 
     print!(" {}  ", ">".bold().blue());
 
-    io::stdout().flush().unwrap();
+    io::stdout().flush().expect("FAILED: to flush stdout. Err04");
 
     io::stdin()
         .read_line(&mut input)
-        .unwrap();
+        .expect("FAILED: to read line from stdin. Err05");
 
     input
 }
