@@ -34,8 +34,8 @@ struct Response {
 }
 
 pub struct ToolIdentifierContent {
-    identifier: String,
-    content: String,
+    pub identifier: String,
+    pub content: String,
 }
 
 #[derive(Debug, strum::EnumString, PartialEq)]

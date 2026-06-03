@@ -42,6 +42,7 @@ EXTRA INFORMATION:
 
 - As long as you set the "state" to "pending", you will continue to be looped to process/use tools.
 - After you have completed your task, you must always return with "state" as "complete", and "tool" as "output" to display something to the user.
+- If you have finished the task, and are being prompted to "continue the task", simply return with "state" as "complete", and "tool" as "output", then write something to output to the user for them to read, confirming the completion of the task.
 
 
 EXAMPLES:

@@ -1,6 +1,5 @@
 use termimad::crossterm::style;
 use std::io::{self, Write};
-use colored::*;
 use spinoff::{Spinner, spinners, Color};
 
 pub fn set_colours(skin: &mut termimad::MadSkin) {
@@ -15,10 +14,10 @@ pub fn set_colours(skin: &mut termimad::MadSkin) {
 }
 
 
-pub fn get_input() -> String {
+pub fn get_input(text: String) -> String {
     let mut input = String::new();
 
-    print!(" {}  ", ">".bold().blue());
+    print!("{}", text);
 
     io::stdout().flush().expect("FAILED: to flush stdout. Err04");
 
@@ -35,7 +34,7 @@ pub fn format_and_print_markdown_content(content: &str) {
     let area = termimad::Area::full_screen();
     
     let formatted_content = termimad::FmtText::from(&skin, content, Some(area.width.into()));
-    println!("\n{}", formatted_content);
+    println!("{}", formatted_content);
 }
 
 
