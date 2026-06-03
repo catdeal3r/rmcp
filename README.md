@@ -2,6 +2,25 @@
 
 A 100% rust MCP implementation.
 
+## Usage
+
+Is in early stages.
+
+Run this to start the ollama server (if its not already running)
+```bash
+ollama serve
+```
+
+Run rcmp:
+```bash
+git clone https://github.com/catdeal3r/rcmp
+cd rcmp
+cargo run  
+```
+
+(If you're on nixos, run `nix develop` before running `cargo run`)
+(If you're not on nixos, you need the lib of openssl installed)
+
 ## Roadmap
 (note this is kinda random as I just finish what I feel is most important first)
 (note again, **bold** is most important stuff)
