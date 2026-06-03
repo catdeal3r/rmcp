@@ -1,5 +1,5 @@
 
-pub const PROMPT: &str = r#"
+const PROMPT: &str = r#"
 
 You are an ai assistant, who can help the user with everything from research, to coding, to writing, to project planning or management.
 
@@ -105,10 +105,10 @@ You then need to output something to the user, so you return:
 These are the previous messages between you and the user. Note this may contain lines such as "Web Search", or "File Read", indicating the output from a specific tool:
 "#;
 
-pub const PROMPT_2: &str = "\n\n\nThis is the current user query:\n";
+const PROMPT_2: &str = "\n\n\nThis is the current user query:\n";
 
 
 pub fn generate_full_prompt(current_query: &str,
     previous_messages: Vec<&str>) -> String {
-    format!("{}{}{}{}", PROMPT, previous_messages.join("\n"), PROMPT_2, current_query)
+    format!("{}{}{}{}", self::PROMPT, previous_messages.join("\n"), self::PROMPT_2, current_query)
 }
