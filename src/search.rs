@@ -1,7 +1,7 @@
 use reqwest::Client;
 use tokio::runtime::Runtime;
 
-pub fn tavily_keyless_search(query: &str) -> String {
+pub fn tavily_keyless_search(query: &str, number_of_results: &str) -> String {
     let rt = Runtime::new().expect("FAILED: to create new tokio runtime. Err12");
 
     let future_task = async {
@@ -9,8 +9,9 @@ pub fn tavily_keyless_search(query: &str) -> String {
         let client = Client::new();
                 
         let payload = format!(
-            r#"{{"query": "{}", "max_results": 5}}"#, 
-            query
+            r#"{{"query": "{}", "max_results": {}}}"#, 
+            query,
+            number_of_results
         );
 
         let response = client.post(url)

@@ -1,5 +1,6 @@
 use std::fs;
 use crate::utils;
+use crate::search;
 use std::io::ErrorKind;
 
 pub fn write_to_file(filename: String, content: String) -> String {
@@ -31,7 +32,7 @@ pub fn write_to_file(filename: String, content: String) -> String {
 
     let return_string: String;
 
-    print!("\n");
+    println!("");
     
     let mut file_writing_spinner = utils::create_spinner("Writing to file ...");
     
@@ -42,8 +43,16 @@ pub fn write_to_file(filename: String, content: String) -> String {
 
     file_writing_spinner.success("Finished writing.");
 
-    print!("\n{}\n", return_string);
+    println!("\n{}", return_string);
 
     return_string
 }
 
+pub fn web_search(query: &str) -> String {
+    
+    let mut web_search_spinner = utils::create_spinner(&format!("Searching the web for \"{}\"...", query));
+    let web_search_response = search::tavily_keyless_search(query, "5");
+    
+    web_search_spinner.success("Finished web search.");
+    web_search_response
+}

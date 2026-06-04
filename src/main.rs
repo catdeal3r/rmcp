@@ -71,7 +71,7 @@ fn main() {
         }
 
         if let ai::ResponseType::Pending(ai::ResponseTool::WebSearch) = response_type {
-            let web_search_response = search::tavily_keyless_search(&tool_identifier_content.content.clone());
+            let web_search_response = tools::web_search(&tool_identifier_content.content.clone());
 
             previous_messages.push(web_search_response);
             task_pending = true;
