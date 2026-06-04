@@ -4,46 +4,17 @@ pub mod consts;
 pub mod ai;
 pub mod utils;
 pub mod tools;
+pub mod search;
 
-fn main() {
+fn main() {    
     println!("\nRunning preflight checks ...");
     let model = "gemma4:e2b".to_string();
 
-    // TODO: move this to a function in utils.rs
-    
-    let mut server_spinner = utils::create_spinner("Checking that the ollama server is running ...");
-    let ollama_server_up = ai::check_whether_ollama_is_running();
-    
-    if ollama_server_up {
-        server_spinner.success("Ollama server is up.");
-    } else {
-        server_spinner.fail("Ollama server isn't running.");
-        return;
-    }
-
-    let mut available_models_spinner = utils::create_spinner("Checking for available models  ...");
-    let ollama_available_models = ai::check_whether_ollama_has_any_models();
-    
-    if ollama_available_models > 0 {
-        available_models_spinner.success(&format!("Ollama has {} models available.", ollama_available_models));
-    } else {
-        available_models_spinner.fail("Ollama has no available models");
-        return;
-    }
-
-    
-    let mut model_spinner = utils::create_spinner("Checking that the ollama server has the current model ...");
-    let ollama_model_exists = ai::check_whether_ollama_has_a_model(&model);
-    
-    if ollama_model_exists {
-        model_spinner.success(&format!("The model \"{}\" is available.", model));
-    } else {
-        model_spinner.fail(&format!("The model \"{}\" isn't available.", model));
+    if !utils::preflight_ollama_server() || !utils::preflight_ollama_models()
+        || !utils::preflight_ollama_model(&model) {
         return;
     }
     
-    // ------
-
     println!("\n{}\n", utils::get_welcome_line(&model, &"ollama".to_string(), &"all".to_string()));
             
     let mut previous_messages: Vec<String> = Vec::new();
@@ -80,17 +51,29 @@ fn main() {
 
         let (response_type, tool_identifier_content) = ai::process_raw_response(raw_response.clone());
 
-        if let ai::ResponseType::Complete(output) = response_type {
+        if let ai::ResponseType::Complete(ref output) = response_type {
             utils::format_and_print_markdown_content(&output);
 
             task_pending = false;
-            continue
         }
 
         if let ai::ResponseType::Pending(ai::ResponseTool::FileWrite) = response_type {
-            let write_to_file_response = tools::write_to_file(tool_identifier_content.identifier, tool_identifier_content.content);
+            let write_to_file_response = tools::write_to_file(tool_identifier_content.identifier.clone(), tool_identifier_content.content.clone());
 
             previous_messages.push(write_to_file_response);
+            task_pending = true;
+        }
+
+        if let ai::ResponseType::Pending(ai::ResponseTool::Output) = response_type {
+            utils::format_and_print_markdown_content(&tool_identifier_content.content.clone());
+
+            task_pending = true;
+        }
+
+        if let ai::ResponseType::Pending(ai::ResponseTool::WebSearch) = response_type {
+            let web_search_response = search::tavily_keyless_search(&tool_identifier_content.content.clone());
+
+            previous_messages.push(web_search_response);
             task_pending = true;
         }
     }

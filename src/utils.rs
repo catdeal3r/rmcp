@@ -3,6 +3,8 @@ use std::io::{self, Write};
 use spinoff::{Spinner, spinners, Color};
 use colored::*;
 
+use crate::ai;
+
 pub fn set_colours(skin: &mut termimad::MadSkin) {
     skin.set_fg(style::Color::Rgb { r: 210, g: 210, b: 210 }); // orange-ish              
                                                                              
@@ -50,4 +52,44 @@ pub fn get_welcome_line(model: &String, provider: &String, tools_amount: &String
         env!("CARGO_PKG_VERSION").bold().dimmed(), "model".bold().blue(),
         model, "·".bold().dimmed(), "provider".bold().blue(), provider,
         "·".bold().dimmed(), "tools".bold().blue(), tools_amount)
+}
+
+
+pub fn preflight_ollama_server() -> bool {
+    let mut server_spinner = self::create_spinner("Checking that the ollama server is running ...");
+    let ollama_server_up = ai::check_whether_ollama_is_running();
+    
+    if ollama_server_up {
+        server_spinner.success("Ollama server is up.");
+        return true;
+    } else {
+        server_spinner.fail("Ollama server isn't running.");
+        return false;
+    }
+}
+
+pub fn preflight_ollama_models() -> bool {
+    let mut available_models_spinner = self::create_spinner("Checking for available models  ...");
+    let ollama_available_models = ai::check_whether_ollama_has_any_models();
+    
+    if ollama_available_models > 0 {
+        available_models_spinner.success(&format!("Ollama has {} models available.", ollama_available_models));
+        return true;
+    } else {
+        available_models_spinner.fail("Ollama has no available models");
+        return false;
+    }
+}
+
+pub fn preflight_ollama_model(model: &String) -> bool {
+    let mut model_spinner = self::create_spinner("Checking that the ollama server has the current model ...");
+    let ollama_model_exists = ai::check_whether_ollama_has_a_model(model);
+    
+    if ollama_model_exists {
+        model_spinner.success(&format!("The model \"{}\" is available.", model));
+        return true;
+    } else {
+        model_spinner.fail(&format!("The model \"{}\" isn't available.", model));
+        return false;
+    }
 }
