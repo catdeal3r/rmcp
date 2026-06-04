@@ -80,5 +80,12 @@ fn main() {
             previous_messages.push(web_search_response);
             task_pending = true;
         }
+
+        if let ai::ResponseType::Pending(ai::ResponseTool::FileRead) = response_type {
+            let read_from_file_response = tools::read_from_file(tool_identifier_content.identifier.clone());
+
+            previous_messages.push(read_from_file_response);
+            task_pending = true;
+        }
     }
 }

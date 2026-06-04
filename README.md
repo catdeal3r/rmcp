@@ -29,10 +29,11 @@ cargo run
 - **History** ✅
 - Tools (can add more if wanted/needed)
   - **FileWrite** ✅
-  - **FileRead**
+  - **FileRead** ✅
   - **WebSearch** ✅
   - WebFetch
   - **Output** ✅
+  - **PathNav**
 - **Thinking loops (allowing the ai to use multiple tools in a row to complete a task)** ✅
 - Model switching (currently only supports gemma4:e2b)
 - **Markdown output** ✅
