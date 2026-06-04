@@ -35,7 +35,11 @@ fn main() {
         let mut thinking_spinner = utils::create_spinner("Thinking ...");
         let full_prompt = consts::generate_full_prompt(&input, previous_messages.clone());
         
-        let raw_response = ai::get_ai_response(&full_prompt, &model);
+        let (raw_response, thinking_reason) = ai::get_ai_response(&full_prompt, &model);
+
+        if let Some(thinking) = thinking_reason {
+            println!("Reasoning: \"{}\"", thinking)
+        }
 
         if !task_pending {
             let user_message = format!("User: \"{}\"", &input);

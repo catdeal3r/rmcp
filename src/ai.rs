@@ -7,7 +7,7 @@ use serde::Deserialize;
 use std::str::FromStr;
 
 
-pub fn get_ai_response(prompt: &String, model: &String) -> String {
+pub fn get_ai_response(prompt: &String, model: &String) -> (String, Option<String>) {
     let rt = Runtime::new().expect("FAILED: to create new tokio runtime. Err01");
 
     let future_task = async {
@@ -20,7 +20,7 @@ pub fn get_ai_response(prompt: &String, model: &String) -> String {
 
     let res = rt.block_on(future_task).expect("FAILED: unable to access the ollama server. Err02");
 
-    res.response
+    (res.response, res.thinking)
 }
 
 pub fn check_whether_ollama_is_running() -> bool {
