@@ -30,13 +30,13 @@ cargo run
 - Tools (can add more if wanted/needed)
   - **FileWrite** ✅
   - **FileRead**
-  - **WebSearch**
+  - **WebSearch** ✅
   - WebFetch
   - **Output** ✅
 - **Thinking loops (allowing the ai to use multiple tools in a row to complete a task)** ✅
 - Model switching (currently only supports gemma4:e2b)
 - **Markdown output** ✅
-- **Starter splash screen**
+- **Starter splash screen** ✅
 - Spinners and niceties ✅
 - Streamed output
 - **Model keepalive (leaves the model loaded in ram to reduce processing times)**
